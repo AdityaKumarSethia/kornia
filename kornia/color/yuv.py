@@ -22,6 +22,7 @@ from typing import ClassVar
 import torch
 from torch import nn
 from torch.nn import functional as F
+
 from kornia.core.check import KORNIA_CHECK_SHAPE
 from kornia.core.exceptions import ShapeError
 
@@ -94,7 +95,7 @@ def rgb_to_yuv(image: torch.Tensor) -> torch.Tensor:
 
     """
     KORNIA_CHECK_SHAPE(image, ["*", "3", "H", "W"])
-    
+
     kernel = torch.tensor(
         [
             [0.299, 0.587, 0.114],
@@ -262,7 +263,7 @@ def yuv420_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
         [imagey, imageuv.repeat_interleave(2, dim=-1).repeat_interleave(2, dim=-2)],
         dim=-3,
     )
-    
+
     return yuv_to_rgb(yuv444image)
 
 
@@ -304,7 +305,7 @@ def yuv422_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
 
     # first upsample
     yuv444image = torch.cat([imagey, imageuv.repeat_interleave(2, dim=-1)], dim=-3)
-    
+
     return yuv_to_rgb(yuv444image)
 
 
